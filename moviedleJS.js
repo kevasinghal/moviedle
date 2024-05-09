@@ -140,7 +140,7 @@ app.get("/guess", async (request, response) => {
   let i = 'https://image.tmdb.org/t/p/w500' + m.poster_path;
 
   const variables = { 
-    file: `http://localhost:${portNumber}/processGuess`,
+    file: `https://moviedle.onrender.com/processGuess`,
     img: i
   };
   response.render("guess", variables);
