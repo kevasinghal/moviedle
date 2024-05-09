@@ -10,6 +10,7 @@ require("dotenv").config({ path: path.resolve(__dirname, '.env') })
 const uri = process.env.MONGO_CONNECTION_STRING;
 const databaseAndCollection = {db: "CMSC335_Final", collection:"userScores"};
 const { MongoClient, ServerApiVersion } = require('mongodb');
+let uScore = 0;
 
 async function add(name, right, wrong){
   const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
@@ -94,6 +95,21 @@ async function findUsers() {
     }
 }
 
+const API_KEY = 'api_key=1cf50e6248dc270629e802686245c2c8';
+const BASE_URL = 'https://api.themoviedb.org/3';
+const API_URL = BASE_URL + '/movie/popular?language=en-US&' + API_KEY;
+
+async function movie(){
+  const result = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&api_key=1cf50e6248dc270629e802686245c2c8');
+  const json = await result.json();
+  return getRandomMovieName(json.results);
+}
+
+function getRandomMovieName(data) {
+    const movie = data[(Math.floor(Math.random() * data.length))];
+    return movie;
+}
+
 console.log(`Web server started and running at http://localhost:${portNumber}`);
 
 const prompt = "Type stop to shutdown the server: ";
@@ -117,9 +133,15 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.get("/", (request, response) => { 
     response.render("index");
 });
-app.get("/guess", (request, response) => { 
+app.get("/guess", async (request, response) => { 
+  let m = await movie();
+  console.log(m);
+  uScore = m.vote_average;
+  let i = 'https://image.tmdb.org/t/p/w500' + m.poster_path;
+
   const variables = { 
     file: `http://localhost:${portNumber}/processGuess`,
+    img: i
   };
   response.render("guess", variables);
 });
@@ -137,16 +159,24 @@ app.get("/scores", async (request, response) => {
 app.post("/processGuess", async (request, response) => { 
   let result = "wrong";
   let {name, guess} = request.body;
+  let guess_num = Number(guess);
+  let diff = Math.abs(uScore - guess_num);
+  let points = 100 - (diff / 0.1);
+  if(points > 95) {
+    result = "correct";
+  }
   let find = await lookup(name);
 
   if (find == "NONE") {
     await add(name, 0, 1);
   } else {
-    await update(name, find.correct, (find.incorrect+1))
+    await update(name, result == "correct" ? find.correct + 1 : find.correct, result == "wrong" ? find.incorrect + 1 : find.incorrect);
   }
 
   const variables = { 
-    info: result
+    info: result,
+    ogscore: uScore,
+    uguess: guess_num
   };
   response.render("processGuess", variables);
 });
