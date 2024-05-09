@@ -168,7 +168,7 @@ app.post("/processGuess", async (request, response) => {
   let find = await lookup(name);
 
   if (find == "NONE") {
-    await add(name, 0, 1);
+    await add(name, result == "correct" ? 1 : 0, result == "wrong" ? 1 : 0);
   } else {
     await update(name, result == "correct" ? find.correct + 1 : find.correct, result == "wrong" ? find.incorrect + 1 : find.incorrect);
   }
