@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Freeman&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Sedan+SC&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Sedan+SC&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+	<title>Guess</title>
+	<style>
+		body { 
+			text-align: center;
+			background-color: cadetblue;
+		}
+
+		h1{
+			font-family: "Freeman", sans-serif;
+			font-weight: 900;
+			font-style: normal;
+			font-size: 80px;
+			letter-spacing: 10px;
+			margin-bottom: 0;
+			margin-top: 0;
+		}
+
+		.txt {
+			padding: 10;
+			height: 30px;
+			position: relative;
+			left: 0;
+			outline: none;
+			border: 1px solid #cdcdcd;
+			border-color: rgba(0,0,0,.15);
+			background-color: slategray;
+			font-size: 16px;
+		}
+		
+		.btn{
+			background-color: darkslategray;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 20px;
+			font-family: "Roboto Mono", monospace;
+			font-optical-sizing: auto;
+			font-weight: 500;
+			font-style: normal;
+		}
+
+		a{
+			background-color: darkslategray;
+			color: lightgray;
+			padding: 10px 30px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 30px;
+			font-family: "Roboto Mono", monospace;
+			font-optical-sizing: auto;
+			font-weight: 500;
+			font-style: normal;
+		}
+
+		a:hover{
+			background-color: grey;
+			color: white;
+		}
+		
+		.lbl{
+			font-family: "Space Grotesk", sans-serif;
+			font-optical-sizing: auto;
+			font-weight: 500;
+			font-style: normal;
+			font-size: 20px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Guess the Movie!</h1>
+	<form action="<%- file %>" method="post">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSB1is3-WXJlpSDel903kk6K3YwYK_H8Hntj91e__GLTg&s">
+		<br><br><br>
+		<label class="lbl">Name: <input type="text" name="name" class="txt"/></label>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+		<label class="lbl">Guess: <input type="text" name="guess" class="txt"></label>
+		<br><br>
+		<input type="submit" value="Submit Guess" class="btn"/>
+	</form>
+	<br><br>
+	<a href="/">HOME</a>
+</body>
+
+</html>
